@@ -23,6 +23,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'preservim/nerdtree'
   Plug 'morhetz/gruvbox'
   Plug 'cohama/lexima.vim'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 call plug#end()
 let g:NERDTreeShowHidden = 1
 " NERDTress File highlighting
@@ -52,6 +53,7 @@ let g:lexima_enable_newline_rules=1
 let g:lexima_enable_endwise_rules=1
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+"let g:ycm_key_list_stop_completion = ['ENTER']
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Toggle NERDTree with Ctrl-b
@@ -59,11 +61,16 @@ nnoremap <silent> <C-b> :NERDTreeToggle<CR>
 " Map Ctrl-Backspace to delete the previous word in insert mode.
 call lexima#add_rule({'char': '<BS>', 'except': '[`<"({['']+\%#', 'input': '<C-W>'})
 " Fast console log in javascript
+call lexima#add_rule({'char': '<C-P>','input': 'console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts']})
 call lexima#add_rule({'char': '<CR>', 'at': 'log\%#', 'input': '<BS><BS><BS>console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts']})
+let g:ycm_key_list_stop_completion = ['^@']
 " for command mode
 nnoremap <S-Tab> <<
 " for insert mode
 inoremap <S-Tab> <C-d>
 " for command mode
 nnoremap <Tab> >>
-
+" disable nonfunctional C-Z
+noremap <C-z> <NOP>
+" Make double-<Esc> clear search highlights
+nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
