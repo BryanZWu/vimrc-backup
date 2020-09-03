@@ -23,8 +23,9 @@ call plug#begin("~/.vim/plugged")
   Plug 'preservim/nerdtree'
   Plug 'morhetz/gruvbox'
   Plug 'cohama/lexima.vim'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'cpiger/NeoDebug'
 call plug#end()
+:packadd termdebug
 let g:NERDTreeShowHidden = 1
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -51,6 +52,17 @@ let g:NERDTreeStatusline = ''
 let g:lexima_enable_basic_rules=1
 let g:lexima_enable_newline_rules=1
 let g:lexima_enable_endwise_rules=1
+let g:neodbg_keymap_toggle_breakpoint  = '<F9>'         " toggle breakpoint on current line
+let g:neodbg_keymap_next               = '<F10>'        " next
+let g:neodbg_keymap_run_to_cursor      = '<C-F10>'      " run to cursor (tb and c)
+let g:neodbg_keymap_jump               = '<C-S-F10>'    " set next statement (tb and jump)
+let g:neodbg_keymap_step_into          = '<F11>'        " step into
+let g:neodbg_keymap_step_out           = '<S-F11>'      " setp out
+let g:neodbg_keymap_continue           = '<F5>'         " run or continue
+let g:neodbg_keymap_print_variable     = '<C-P>'        " view variable under the cursor
+let g:neodbg_keymap_stop_debugging     = '<S-F5>'       " stop debugging (kill)
+let g:neodbg_keymap_toggle_console_win = '<F6>'         " toggle console window
+let g:neodbg_keymap_terminate_debugger = '<C-C>'        " terminate debugger
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 "let g:ycm_key_list_stop_completion = ['ENTER']
