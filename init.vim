@@ -8,6 +8,7 @@ set expandtab
 set shiftwidth=2
 set smarttab
 set showcmd
+autocmd FileType c setlocal shiftwidth=4 softtabstop=4
 set cursorline
 filetype indent on
 set wildmenu
@@ -74,6 +75,8 @@ nnoremap <silent> <C-b> :NERDTreeToggle<CR>
 call lexima#add_rule({'char': '<BS>', 'except': '[`<"({['']+\%#', 'input': '<C-W>'})
 " Fast console log in javascript
 call lexima#add_rule({'char': '<C-P>','input': 'console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts']})
+call lexima#add_rule({'char': '<C-P>','input': 'printf(', 'input_after': ')', 'filetype': ['c']})
+call lexima#add_rule({'char': '<C-P>','input': 'print(', 'input_after': ')', 'filetype': ['py', 'python']})
 call lexima#add_rule({'char': '<CR>', 'at': 'log\%#', 'input': '<BS><BS><BS>console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts']})
 let g:ycm_key_list_stop_completion = ['^@']
 " for command mode
@@ -84,5 +87,7 @@ inoremap <S-Tab> <C-d>
 nnoremap <Tab> >>
 " disable nonfunctional C-Z
 noremap <C-z> <NOP>
+" remove C-T because that's used by the command prompt to create a new tab
+noremap <C-t> <NOP>
 " Make double-<Esc> clear search highlights
 nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
