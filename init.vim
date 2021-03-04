@@ -64,6 +64,37 @@ let g:neodbg_keymap_print_variable     = '<C-P>'        " view variable under th
 let g:neodbg_keymap_stop_debugging     = '<S-F5>'       " stop debugging (kill)
 let g:neodbg_keymap_toggle_console_win = '<F6>'         " toggle console window
 let g:neodbg_keymap_terminate_debugger = '<C-C>'        " terminate debugger
+" Sandwich customizations
+let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+"Automatic indent when adding linewise brackets
+let g:sandwich#recipes += [
+      \   {
+      \     'buns'        : ['{', '}'],
+      \     'motionwise'  : ['line'],
+      \     'kind'        : ['add'],
+      \     'linewise'    : 1,
+      \     'command'     : ["'[+1,']-1normal! >>"],
+      \   },
+      \   {
+      \     'buns'        : ['{', '}'],
+      \     'motionwise'  : ['line'],
+      \     'kind'        : ['delete'],
+      \     'linewise'    : 1,
+      \     'command'     : ["'[,']normal! <<"],
+      \   },
+      \ ]
+" Html sandwdith tags
+let g:sandwich#recipes += [                             
+      \   {
+      \     'external': ['it', 'at'],
+      \     'noremap' : 1,
+      \     'filetype': ['html', 'javascript', 'typescriptreact', 'tsx'],
+      \     'input'   : ['m'],
+      \   },
+      \ ]
+
+
+
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 "let g:ycm_key_list_stop_completion = ['ENTER']
@@ -71,13 +102,25 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Toggle NERDTree with Ctrl-b
 nnoremap <silent> <C-b> :NERDTreeToggle<CR>
-" Map Ctrl-Backspace to delete the previous word in insert mode.
+" Map Ctrl-Backspace to delete the previous word in insert mode. 
+" Note that this works ONLY in windows!
 call lexima#add_rule({'char': '<BS>', 'except': '[`<"({['']+\%#', 'input': '<C-W>'})
+
+
+" Rules for remapping the <BS> stuff since in windows it becomes Ctrl + H
+
+call lexima#add_rule({'char': '<C-H>', 'at': '"\%#"', 'delete': 1})
+call lexima#add_rule({'char': '<C-H>', 'at': '''\%#''', 'delete': 1})
+call lexima#add_rule({'char': '<C-H>', 'at': '\[\%#\]', 'delete': 1})
+call lexima#add_rule({'char': '<C-H>', 'at': '{\%#}', 'delete': 1})
+
+
 " Fast console log in javascript
-call lexima#add_rule({'char': '<C-P>','input': 'console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts']})
+call lexima#add_rule({'char': '<C-P>','input': 'console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts', 'tsx', 'typescriptreact']})
 call lexima#add_rule({'char': '<C-P>','input': 'printf(', 'input_after': ')', 'filetype': ['c']})
 call lexima#add_rule({'char': '<C-P>','input': 'print(', 'input_after': ')', 'filetype': ['py', 'python']})
-call lexima#add_rule({'char': '<CR>', 'at': 'log\%#', 'input': '<BS><BS><BS>console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts']})
+call lexima#add_rule({'char': '<C-P>','input': 'System.out.println(', 'input_after': ')', 'filetype': ['java']})
+call lexima#add_rule({'char': '<CR>', 'at': 'log\%#', 'input': '<BS><BS><BS>console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts', 'tsx', 'typescriptreact']})
 let g:ycm_key_list_stop_completion = ['^@']
 " for command mode
 nnoremap <S-Tab> <<
@@ -91,3 +134,5 @@ noremap <C-z> <NOP>
 noremap <C-t> <NOP>
 " Make double-<Esc> clear search highlights
 nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
+
+map ; :GFiles<CR>
