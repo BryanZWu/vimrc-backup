@@ -113,6 +113,7 @@ call lexima#add_rule({'char': '<C-H>', 'at': '"\%#"', 'delete': 1})
 call lexima#add_rule({'char': '<C-H>', 'at': '''\%#''', 'delete': 1})
 call lexima#add_rule({'char': '<C-H>', 'at': '\[\%#\]', 'delete': 1})
 call lexima#add_rule({'char': '<C-H>', 'at': '{\%#}', 'delete': 1})
+call lexima#add_rule({'char': '<C-H>', 'at': '(\%#)', 'delete': 1})
 
 
 " Fast console log in javascript
