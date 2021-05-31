@@ -7,6 +7,9 @@ set number
 set expandtab 
 set shiftwidth=2
 set smarttab
+" check one time after 4s of inactivity in normal mode for file updates
+set autoread                                                                                                                                                                                    
+au CursorHold * checktime     
 set showcmd
 autocmd FileType c setlocal shiftwidth=4 softtabstop=4
 set cursorline
@@ -121,6 +124,7 @@ call lexima#add_rule({'char': '<C-P>','input': 'console.log(', 'input_after': ')
 call lexima#add_rule({'char': '<C-P>','input': 'printf(', 'input_after': ')', 'filetype': ['c']})
 call lexima#add_rule({'char': '<C-P>','input': 'print(', 'input_after': ')', 'filetype': ['py', 'python']})
 call lexima#add_rule({'char': '<C-P>','input': 'System.out.println(', 'input_after': ')', 'filetype': ['java']})
+call lexima#add_rule({'char': '<C-P>','input': 'Console.WriteLine(', 'input_after': ')', 'filetype': ['csharp']})
 call lexima#add_rule({'char': '<CR>', 'at': 'log\%#', 'input': '<BS><BS><BS>console.log(', 'input_after': ')', 'filetype': ['js', 'javascript', 'typescript', 'ts', 'tsx', 'typescriptreact']})
 let g:ycm_key_list_stop_completion = ['^@']
 " for command mode
